@@ -85,34 +85,44 @@ short communicationKeyCalc (short ** matrix, short *keyPolinomial, short ownCryp
 	return communicationKey;
 }
 
-int main ()
-{
-	short m = 2;
-	short n = 10;
-	short p = 193;
-	short **Matrix = matrixGen (m, p);
-	short *R = new short [n];
-	short **G = new short* [n];
+int main () {
+	while(true) {
+		short m;
+		short n;	
+		short p;
+		cout << "Enter m parameter" << endl;
+		cin >> m;	
+		cout << "Enter prime modulus p" << endl;
+		cin >> p;
+		do {
+		cout << "Enter number of users" << endl;
+		cin >> n;
+		if (n >= p - 1)
+			cout << "Excessively many users" << endl;
+		} while (n >= p - 1);
+		short **Matrix = matrixGen (m, p);
+		short *R = new short [n];
+		short **G = new short* [n];
 
-	for (short i = 0; i < n; i++)
-	{
-		R[i] = i + 1;
-		G[i] = keyPolinomialGen (R[i], Matrix, m, p);
+		for (short i = 0; i < n; i++)
+		{
+			R[i] = i + 1;
+			G[i] = keyPolinomialGen (R[i], Matrix, m, p);
+		}
+		printMatrix (Matrix, m);
+		for (short i = 0; i < n; i++)
+		{
+			cout << "r" << i + 1 << " = " << R[i] << ":  ";
+			printVector (G[i], m + 1);
+		}
+
+		for (short i = 0; i <= m; i++)
+			delete [] Matrix[i];
+		delete [] Matrix;
+		for (short i = 0; i < n; i++)
+			delete [] G[i];
+		delete [] G;
+		delete [] R;
 	}
-	printMatrix (Matrix, m);
-	for (short i = 0; i < n; i++)
-	{
-		cout << "r" << i + 1 << " = " << R[i] << ":  ";
-		printVector (G[i], m + 1);
-	}
-
-	for (short i = 0; i <= m; i++)
-		delete [] Matrix[i];
-	delete [] Matrix;
-	for (short i = 0; i < n; i++)
-		delete [] G[i];
-	delete [] G;
-	delete [] R;
-
-	return 0;
+		return 0;
 }
