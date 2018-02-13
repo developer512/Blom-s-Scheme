@@ -90,16 +90,19 @@ int main () {
 		short m;
 		short n;	
 		short p;
+		
 		cout << "Enter m parameter" << endl;
 		cin >> m;	
 		cout << "Enter prime modulus p" << endl;
 		cin >> p;
+		
 		do {
 		cout << "Enter number of users" << endl;
 		cin >> n;
 		if (n >= p - 1)
 			cout << "Excessively many users" << endl;
 		} while (n >= p - 1);
+		
 		short **Matrix = matrixGen (m, p);
 		short *R = new short [n];
 		short **G = new short* [n];
@@ -109,7 +112,12 @@ int main () {
 			R[i] = i + 1;
 			G[i] = keyPolinomialGen (R[i], Matrix, m, p);
 		}
+		
+		cout << "Secrete matrix:" << endl;
 		printMatrix (Matrix, m);
+		cout << "---------------" << endl;
+		
+		cout << "Users' key vectors:" << endl;
 		for (short i = 0; i < n; i++)
 		{
 			cout << "r" << i + 1 << " = " << R[i] << ":  ";
@@ -123,6 +131,8 @@ int main () {
 			delete [] G[i];
 		delete [] G;
 		delete [] R;
+
+		cout << "________________" << endl << "________________" << endl;
 	}
 		return 0;
 }
